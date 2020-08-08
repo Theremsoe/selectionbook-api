@@ -7,7 +7,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 // use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
@@ -81,8 +81,8 @@ class User extends Model implements AuthorizableContract, AuthenticatableContrac
     /**
      * Get the user addresses.
      */
-    public function addresses(): MorphOne
+    public function addresses(): MorphMany
     {
-        return $this->morphOne(Address::class, 'addressable');
+        return $this->morphMany(Address::class, 'addressable');
     }
 }

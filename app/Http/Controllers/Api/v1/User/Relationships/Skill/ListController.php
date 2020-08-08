@@ -14,7 +14,7 @@ class ListController extends Controller
     public function __invoke(User $user): Collection
     {
         return new Collection(
-            $user->skills()->paginate()
+            $user->skills()->with('user')->paginate()
         );
     }
 }

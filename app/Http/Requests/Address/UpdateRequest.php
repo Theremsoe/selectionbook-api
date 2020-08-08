@@ -2,29 +2,25 @@
 
 namespace App\Http\Requests\Address;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Providers\Components\JsonApiSpec\Http\Requests\ResourceFormRequest;
 
-class UpdateRequest extends FormRequest
+class UpdateRequest extends ResourceFormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'street' => 'sometimes|required',
+            'city' => 'sometimes|required',
+            'state' => 'sometimes|required',
+            'zipcode' => 'sometimes|required',
+            'country' => 'sometimes|required',
+            'geometry' => 'sometimes|required|array',
+            'geometry.type' => 'required_if:geometry|in:Point',
+            'geometry.coordinates' => 'required_if:geometry|array|size:2',
+            'geometry.coordinates.*' => 'required_if:geometry|numeric',
         ];
     }
 }

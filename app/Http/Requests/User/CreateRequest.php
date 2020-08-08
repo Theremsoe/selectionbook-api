@@ -2,28 +2,25 @@
 
 namespace App\Http\Requests\User;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Model\User;
+use App\Providers\Components\JsonApiSpec\Http\Requests\ResourceFormRequest;
 
-class CreateRequest extends FormRequest
+class CreateRequest extends ResourceFormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
+        /** @var string $repository */
+        $repository = User::class;
+
         return [
+            'name' => 'required',
+            'last_name' => 'nullable',
+            'email' => "required|email|unique:{$repository},email",
+            'username' => "required|unique:{$repository},username",
+            'password' => 'required',
         ];
     }
 }

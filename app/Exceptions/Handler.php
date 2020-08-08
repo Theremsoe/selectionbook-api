@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Providers\Components\JsonApiSpec\ExceptionHandler\Handler as JsonApiSpecHandler;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -13,7 +15,6 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
     ];
 
     /**
@@ -29,12 +30,9 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Throwable  $exception
-     * @return void
-     *
      * @throws \Exception
      */
-    public function report(Throwable $exception)
+    public function report(Throwable $exception): void
     {
         parent::report($exception);
     }
@@ -42,14 +40,18 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param \Illuminate\Http\Request $request
      *
      * @throws \Throwable
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $exception): Response
     {
+        if ($request->is('api/*')) {
+            $exception = (new JsonApiSpecHandler())->mutate(
+                $this->prepareException($exception)
+            );
+        }
+
         return parent::render($request, $exception);
     }
 }

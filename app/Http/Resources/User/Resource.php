@@ -3,6 +3,7 @@
 namespace App\Http\Resources\User;
 
 use App\Model\User;
+use DateTimeInterface;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Resource extends JsonResource
@@ -30,9 +31,11 @@ class Resource extends JsonResource
                 'email' => $this->resource->email,
                 'username' => $this->resource->username,
                 'born_date' => $this->resource->born_date->toDateString(),
-                'created_at' => $this->resource->created_at,
-                'updated_at' => $this->resource->updated_at,
-                'deleted_at' => $this->resource->deleted_at,
+                'created_at' => $this->resource->created_at->format(DateTimeInterface::RFC3339_EXTENDED),
+                'updated_at' => $this->resource->updated_at->format(DateTimeInterface::RFC3339_EXTENDED),
+                'deleted_at' => $this->resource->deleted_at
+                    ? $this->resource->deleted_at->format(DateTimeInterface::RFC3339_EXTENDED)
+                    : $this->resource->deleted_at,
             ],
             'relationships' => [
                 'skill' => [

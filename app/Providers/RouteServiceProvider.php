@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Model\Address;
+use App\Model\Skill;
+use App\Model\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Routing\Route as Routing;
 use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
@@ -22,6 +26,23 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         parent::boot();
+
+        Route::bind(
+            'user-address',
+            fn (string $value, Routing $route): Address => Address::query()
+                ->where('addressable_type', User::class)
+                ->where('addressable_id', $route->parameters['user'])
+                ->where('id', $value)
+                ->firstOrFail()
+        );
+
+        Route::bind(
+            'user-skill',
+            fn (string $value): Skill => Skill::query()
+                ->where('user_id', User::class)
+                ->where('id', $value)
+                ->firstOrFail()
+        );
     }
 
     /**

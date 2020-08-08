@@ -2,29 +2,29 @@
 
 namespace App\Http\Requests\User;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Model\User;
+use App\Providers\Components\JsonApiSpec\Http\Requests\ResourceFormRequest;
 
-class UpdateRequest extends FormRequest
+class UpdateRequest extends ResourceFormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
+     * User resolved by route binding.
      */
-    public function authorize()
-    {
-        return false;
-    }
+    public User $user;
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
+        /** @var string $repository */
+        $repository = User::class;
+
         return [
-            //
+            'name' => 'sometimes|required',
+            'last_name' => 'nullable',
+            'username' => "sometimes|required|unique:{$repository},username,{$this->user->getKey()}",
+            'email' => "sometimes|required|email|unique:{$repository},email,{$this->user->getKey()}",
         ];
     }
 }

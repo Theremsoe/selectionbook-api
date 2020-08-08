@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\Providers\Components\Geo\Casts\GeometryCast;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -45,7 +46,7 @@ class Address extends Model
     /**
      * Get the owning address model.
      */
-    public function addressable()
+    public function addressable(): MorphTo
     {
         return $this->morphTo();
     }
