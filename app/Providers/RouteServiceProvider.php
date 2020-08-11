@@ -28,7 +28,7 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
 
         Route::bind(
-            'user-address',
+            'user_address',
             fn (string $value, Routing $route): Address => Address::query()
                 ->where('addressable_type', User::class)
                 ->where('addressable_id', $route->parameters['user'])
@@ -37,9 +37,9 @@ class RouteServiceProvider extends ServiceProvider
         );
 
         Route::bind(
-            'user-skill',
-            fn (string $value): Skill => Skill::query()
-                ->where('user_id', User::class)
+            'user_skill',
+            fn (string $value, Routing $route): Skill => Skill::query()
+                ->where('user_id', $route->parameters['user'])
                 ->where('id', $value)
                 ->firstOrFail()
         );

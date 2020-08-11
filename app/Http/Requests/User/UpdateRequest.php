@@ -5,13 +5,11 @@ namespace App\Http\Requests\User;
 use App\Model\User;
 use App\Providers\Components\JsonApiSpec\Http\Requests\ResourceFormRequest;
 
+/**
+ * @property \App\Model\User $user
+ */
 class UpdateRequest extends ResourceFormRequest
 {
-    /**
-     * User resolved by route binding.
-     */
-    public User $user;
-
     /**
      * Get the validation rules that apply to the request.
      */

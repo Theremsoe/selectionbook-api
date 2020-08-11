@@ -20,7 +20,7 @@ class CreateRequest extends ResourceFormRequest
             'last_name' => 'nullable',
             'email' => "required|email|unique:{$repository},email",
             'username' => "required|unique:{$repository},username",
-            'password' => 'required',
+            // 'password' => 'required',
         ];
     }
 }

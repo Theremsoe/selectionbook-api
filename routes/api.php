@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('api/vi')->namespace('Api\v1')->name('api.v1.')->group(static function (): void {
+Route::prefix('api/v1')->namespace('Api\v1')->name('api.v1.')->group(static function (): void {
     Route::prefix('user')->namespace('User')->name('user.')->group(static function (): void {
         Route::get('/', 'ListController')->name('list');
         Route::get('/{user}', 'ReadController')->name('read');
@@ -32,10 +32,10 @@ Route::prefix('api/vi')->namespace('Api\v1')->name('api.v1.')->group(static func
 
             Route::prefix('skill')->namespace('Skill')->name('skill.')->group(static function (): void {
                 Route::get('/', 'ListController')->name('list');
-                Route::get('/{user-skill}', 'ReadController')->name('read');
+                Route::get('/{user_skill}', 'ReadController')->name('read');
                 Route::post('/', 'CreateController')->name('create');
-                Route::patch('/{user-skill}', 'UpdateController')->name('update');
-                Route::delete('/{user-skill}', 'DeleteController')->name('delete');
+                Route::patch('/{user_skill}', 'UpdateController')->name('update');
+                Route::delete('/{user_skill}', 'DeleteController')->name('delete');
             });
         });
     });
